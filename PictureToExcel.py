@@ -8,8 +8,8 @@ from PyQt5.QtGui import QPixmap, QImage, QColor
 from win32com.client import Dispatch
 
 class PictureToExcel(QObject):
-	"""Youtube list download."""
-						
+	"""Write pixels picture to sheet excel cell = one pixel."""
+
 	def __init__(self, picture, xls=None, visible = False, cellsquaresize = 20, parent=None):
 		"""Init."""
 		super(PictureToExcel, self).__init__(parent)
@@ -27,7 +27,6 @@ class PictureToExcel(QObject):
 		self.close_worksheet()
 
 	def prepare_worksheet(self, visible = False):
-		# Excel prepare worksheet
 		self.excel = Dispatch("Excel.Application")
 		if visible:
 			self.excel.Visible = 1
@@ -37,7 +36,7 @@ class PictureToExcel(QObject):
 		self.feuille.name = 'PictureToExcel 1.0'
 		#self.feuille.Cells(1,1).Value = "Hello, World"
 		self.excel.Windows.Item(1).DisplayGridlines = False
-	
+
 	def write_picture(self):
 		img = QImage(self.picture)
 		width = img.width()
@@ -55,7 +54,7 @@ class PictureToExcel(QObject):
 				self.feuille.Cells.Item(y + 1, x + 1).interior.color = self.rgb_to_hex(colors)
 				# progress bar
 				bar.update()
-	
+
 	def close_worksheet(self):
 		if path.isfile(self.classeurname):
 			remove(self.classeurname)
@@ -82,7 +81,7 @@ class ProgressBar:
 		self.perc = 0
 		self._completed_steps = 0
 		self.update(False)
-	
+
 	def update(self, increase=True):
 		if increase:
 			self._completed_steps += 1
